@@ -7,34 +7,33 @@ import static com.yaksha.training.recruiter.utils.TestUtils.currentTest;
 import static com.yaksha.training.recruiter.utils.TestUtils.testReport;
 import static com.yaksha.training.recruiter.utils.TestUtils.yakshaAssert;
 
-import java.util.Set;
-
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import com.yaksha.training.recruiter.entity.Recruiter;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Set;
 
 @ExtendWith(SpringExtension.class)
 public class BoundaryTest {
 
     private static Validator validator;
 
-    @BeforeAll
-    public static void setUp() {
+    @Before
+    public void setUp() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }
 
-    @AfterAll
-    public static void afterAll() {
+    @After
+    public void afterAll() {
         testReport();
     }
 
@@ -157,7 +156,4 @@ public class BoundaryTest {
         Set<ConstraintViolation<Recruiter>> violations = validator.validate(recruiter);
         yakshaAssert(currentTest(), !violations.isEmpty() ? true : false, boundaryTestFile);
     }
-
-
-
 }
